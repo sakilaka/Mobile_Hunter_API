@@ -17,6 +17,7 @@
           <input id="search-field" type="email" class="form-control" id="exampleFormControlInput1" placeholder="search your phone">
           <div id="btn-search" class="btn btn-primary">search</div>
         </div>
+       
       </section>
       <section>
           
@@ -24,7 +25,24 @@
           
             </div>
 
+            <div id="no-found" class="mt-5 d-none">
+              <h2>No phone found.please enter a new search.</h2>
+            </div>
+
            
+           
+      </section>
+      <section>
+        <div id="show-all" class="text-center d-none">
+          <div id="btn-showAll" class="btn btn-primary text-center">Show More</div>
+        </div>
+      </section>
+      <section id="loader" class="d-none">
+        <div  style="height:300px ;" class="d-flex justify-content-center align-items-center">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
       </section>
     </main>
     

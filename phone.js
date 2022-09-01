@@ -1,17 +1,40 @@
-const loadPhones = async(searchText) =>{
+const loadPhones = async(searchText,dataLimit) =>{
     const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
     const res = await fetch(url);
     const data =await res.json();
-    displayPhones(data.data);
+    displayPhones(data.data , dataLimit);
 }
 
-const displayPhones  = phones =>{
+const displayPhones  = (phones , dataLimit) =>{
     const phoneContainer = document.getElementById('phones-container');
     phoneContainer.innerHTML = ``;
     // display e fixed number phone 
 
-    phones = phones.slice(0,3)
-    
+    const showAll = document.getElementById('show-all')
+    if(dataLimit && phones.length > 10){
+      phones = phones.slice(0,10);
+      showAll.classList.remove('d-none')
+    }
+    else{
+      showAll.classList.add('d-none')
+    }
+
+
+   
+
+    // display no phone found
+
+    const noFound = document.getElementById('no-found')
+    if(phones.length === 0){
+      noFound.classList.remove('d-none')
+    }
+    else{
+      noFound.classList.add('d-none')
+    }
+
+
+    // display all phone found
+
     phones.forEach(phone =>{
         const phoneDiv = document.createElement('div');
         phoneDiv.classList.add('col');
@@ -26,13 +49,34 @@ const displayPhones  = phones =>{
         `
         phoneContainer.appendChild(phoneDiv)
     })
+    toggleSpinner(false);
+
    
 }
 
+const processSearch = (dataLimit) =>{
+  toggleSpinner(true);
+  const searchField = document.getElementById('search-field');
+  const searchText = searchField.value;
+  loadPhones(searchText , dataLimit) 
+}
+
 document.getElementById('btn-search').addEventListener('click',function(){
-    const searchField = document.getElementById('search-field');
-    const searchText = searchField.value;
-    loadPhones(searchText) 
+    processSearch(10);
 })
 
-loadPhones();
+const toggleSpinner = isLoading =>{
+  const loaderSection = document.getElementById('loader');
+  if(isLoading){
+    loaderSection.classList.remove('d-none');
+  }
+  else{
+    loaderSection.classList.add('d-none')
+  }
+}
+
+document.getElementById('btn-showAll').addEventListener('click',function(){
+  processSearch();
+})
+
+// loadPhones();
